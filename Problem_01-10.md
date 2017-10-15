@@ -580,3 +580,137 @@ Note:
 Given n will always be valid.  
 Try to do this in one pass.
 
+```py
+class Solution(object):
+    def removeNthFromEnd(self, head, n):
+        """
+        :type head: ListNode
+        :type n: int
+        :rtype: ListNode
+        """
+        if n==0:
+            return head
+        cnt = 0
+        ptr = head
+        while ptr!=None:
+            cnt+=1
+            ptr=ptr.next
+
+        n = cnt-n+1
+        ptr = head
+        cnt = 0
+
+        while ptr!=None:
+            if n==1:
+                head = ptr.next
+                break
+            cnt+=1
+            if (cnt+1)==n:
+                ptr.next = ptr.next.next
+                break
+            else:
+                ptr=ptr.next
+        return head
+```
+
+
+# 20. Valid Parentheses
+Given a string containing just the characters `'(', ')', '{', '}', '['` and `']'`, determine if the input string is valid.
+
+The brackets must close in the correct order, `"()"` and `"()[]{}"` are all valid but `"(]"` and `"([)]"` are not.
+
+## Solution: Time limit exceeded
+```py
+class Solution(object):
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        if len(s)%2!=0:
+            return False
+
+        s = [char for char in s]
+
+        i = 1
+        while(len(s)!=0 and i<len(s) ):
+            if s[i]!='}' and s[i]!=')' and s[i]!=']':
+                i = i + 1
+            else:
+                if s[i]=='}' and s[i-1]!='{':
+                    return False
+                if s[i]==']' and s[i-1]!='[':
+                    return False
+                if s[i]==')' and s[i-1]!='(':
+                    return False
+
+                del s[i]
+                del s[i-1]
+                i = 1
+
+        if len(s)>0:
+            return False
+        else:
+            return True
+```
+
+## Solution: stack and pop
+
+```py
+class Solution(object):
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        stack = []
+        dict = {"]": "[", "}": "{", ")": "("}
+
+        for char in s:
+            if char in dict.values():
+                stack.append(char)
+            elif char in dict.keys():
+                if stack==[] or stack.pop()!=dict[char]:
+                    return False
+            else:
+                return False
+        return stack == []
+```
+
+# 21. Merge Two Sorted Lists
+
+Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
+
+## My Solution: Pass
+```py
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def mergeTwoLists(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        merge = ListNode(-1)
+        ptr_merge = merge
+        ptr1,ptr2 = l1,l2
+
+        while ptr1 != None or ptr2 != None:
+
+            x = ptr1.val if (ptr1 != None) else 9999999
+            y = ptr2.val if (ptr2 != None) else 9999999
+
+            ptr_merge.next = ListNode(min(x,y))
+            ptr_merge = ptr_merge.next
+            if x>y:
+                ptr2 = ptr2.next
+            else:
+                ptr1 = ptr1.next
+
+        return merge.next
+```

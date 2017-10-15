@@ -11,7 +11,38 @@ class Solution(object):
         :type n: int
         :rtype: ListNode
         """
-        
+        if n==0:
+            return head
+
+        cnt = 0
+
+        ptr = head
+        while ptr!=None:
+            cnt+=1
+            ptr=ptr.next
+
+        n = cnt-n+1
+
+        ptr = head
+
+        cnt = 0
+
+        while ptr!=None:
+
+            if n==1:
+                head = ptr.next
+                break
+
+            cnt+=1
+
+            if (cnt+1)==n:
+                ptr.next = ptr.next.next
+                break
+            else:
+                ptr=ptr.next
+
+        return head
+
 
 
 if __name__ == '__main__':
@@ -22,6 +53,6 @@ if __name__ == '__main__':
     head.next.next.next.next = ListNode(5)
 
     obj = Solution()
-    obj.removeNthFromEnd(head,2)
+    head = obj.removeNthFromEnd(head,0)
 
     pass
