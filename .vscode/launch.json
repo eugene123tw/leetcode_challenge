@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "C++ Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}.exe",
+            "preLaunchTask": "build",
+            "internalConsoleOptions": "openOnSessionStart",
+            "logging": {
+                "moduleLoad": false,
+                "programOutput": true,
+                "trace": false
+            },
+            "showDisplayString": false,
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": false,
+            "osx": {
+                "MIMode": "lldb"
+             }
+        }
+    ]
+}
