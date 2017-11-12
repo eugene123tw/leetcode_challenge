@@ -21,7 +21,10 @@
         "vector": "cpp",
         "__string": "cpp",
         "string": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "ostream": "cpp",
+        "initializer_list": "cpp",
+        "iostream": "cpp"
     },
     "code-runner.executorMap": {
         "javascript": "node",
