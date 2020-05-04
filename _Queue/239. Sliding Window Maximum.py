@@ -49,7 +49,7 @@ class Solution:
         return result
 
 if __name__ == '__main__':
-    nums,k = [1, 3, -1, -3, 5, 3, 6, 7], 3
-
+    nums,k = [1, 3, -1, -3, 4, 3, 5, 7], 3
+    # nums,k = [1, -1], 1
     obj = Solution()
     print(obj.maxSlidingWindow(nums,k))
