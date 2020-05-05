@@ -1,6 +1,22 @@
 # Bit Manipulation
 
-## Not `~` Operator
+## AND `&` Operator (masking operator)
+
+AND takes two equal-length bit patterns. If both bits in the compared position of the bit patterns are 1, the bit in the resulting bit pattern is 1, otherwise 0.
+
+For example:
+
+```
+ A: 0000 0000 0000 0011 = 3
+&B: 0000 0000 0000 0010 = 2
+----------------------------
+    0000 0000 0000 0010 = 2
+```
+
+From result `0010`, we know the second bit in the original pattern was set. This is often called bit **masking**. (In this case, the `0` values mask the bits that are not of interest). This operator can help us locate intersected bits between 2 patterns.
+
+## NOT `~` Operator
+
 `~x` : Returns the complement of x - the number you get by switching each 1 for a 0 and each 0 for a 1. This is the same as -x - 1.
 
 It's an artifact of two's complement integer representation.
@@ -13,22 +29,24 @@ Invert: 1111 1111 1111 1110 = -2 (in two's complement representation)
 ```
 
 ## XOR `^` Operator
+
 Bitwise XOR also takes two equal-length bit patterns. If both bits in the compared position of the bit patterns are 0 or 1, the bit in the resulting bit pattern is 0, otherwise 1.  
 A = 5 = (101), B = 3 = (011)  
-A ^ B = (101) ^ (011)  = (110) = 6  
+A ^ B = (101) ^ (011) = (110) = 6
 
 > ref:  
-https://en.wikipedia.org/wiki/Two%27s_complement  
-https://zh.wikipedia.org/wiki/%E4%BA%8C%E8%A3%9C%E6%95%B8  
-https://stackoverflow.com/questions/7278779/bit-wise-operation-unary-invert  
-https://stackoverflow.com/questions/14326900/how-does-c-do-bitwise-or-operations-on-negative-numbers
+> https://en.wikipedia.org/wiki/Two%27s_complement  
+> https://zh.wikipedia.org/wiki/%E4%BA%8C%E8%A3%9C%E6%95%B8  
+> https://stackoverflow.com/questions/7278779/bit-wise-operation-unary-invert  
+> https://stackoverflow.com/questions/14326900/how-does-c-do-bitwise-or-operations-on-negative-numbers
 
 # 136. Single Number
 
 Given an array of integers, every element appears twice except for one. Find that single one.
 
 **Note:**
-Your algorithm should have a linear runtime complexity.  
+Your algorithm should have a linear runtime complexity.
+
 > Could you implement it without using extra memory?
 
 **Example:**
@@ -39,6 +57,7 @@ Input: [17,12,5,-6,12,4,17,-5,2,-3,2,4,5,16,-3,-4,15,15,-4,-5,-6]
 Output: 16
 
 ## My solution:
+
 ```py
 class Solution:
     def singleNumber(self, nums):
@@ -52,6 +71,7 @@ class Solution:
 ```
 
 ## Approach #2 Hash Table:
+
 Runtime: 72 ms  
 Time complexity: $O(n)$  
 Space complexity: $O(n)$
@@ -70,14 +90,15 @@ class Solution:
 ```
 
 ## Approach #3 Math:
-Concept: 
-> 2 * (a + b + c) - (a + a + b + b + c) = c  
-I don't know how to implement this 
 
+Concept:
 
-## Approach #4 Bit Manipulation: 
+> 2 \* (a + b + c) - (a + a + b + b + c) = c  
+> I don't know how to implement this
+
+## Approach #4 Bit Manipulation:
+
 XOR ( ^ ): Bitwise XOR takes two equal-length bit patterns. If both bits in the compared position of the bit patterns are 0 or 1, the bit in the resulting bit pattern is 0, otherwise 1.
-
 
 Since $A \oplus 0 = A$,  
 And, $A \oplus A = 0$,  
@@ -92,15 +113,14 @@ class Solution:
         return num
 ```
 
-or 
+or
 
 ```py
 class Solution:
     def singleNumber(self, nums):
-        
+
         return operator.xor(num, nums[i])
 ```
-
 
 # 137. Single Number II
 
@@ -114,8 +134,10 @@ Input: [2,2,3,2]
 Output: 3
 
 ## Hash Table Solution:
+
 Time complexity: $O(n)$  
 Space complexity: $O(n)$
+
 ```py
 class Solution:
     def singleNumber(self, nums):
@@ -136,28 +158,29 @@ class Solution:
 ```
 
 ## Bit Operation
-The code makes use of 2 variables.  
+
+The code makes use of 2 variables.
 
 ones - At any point of time, this variable holds XOR of all the elements which have
 appeared "only" once.  
 twos - At any point of time, this variable holds XOR of all the elements which have
-appeared "only" twice.  
+appeared "only" twice.
 
-So if at any point time,  
+So if at any point time,
 
 A new number appears - It gets XOR'd to the variable "ones".  
 A number gets repeated(appears twice) - It is removed from "ones" and XOR'd to the
 variable "twos".  
 A number appears for the third time - It gets removed from both "ones" and "twos".  
-The final answer we want is the value present in "ones" - coz, it holds the unique element.  
+The final answer we want is the value present in "ones" - coz, it holds the unique element.
 
 So if we explain how steps 1 to 3 happens in the code, we are done.  
-Before explaining above 3 steps, lets look at last three lines of the code,  
+Before explaining above 3 steps, lets look at last three lines of the code,
 
 ```py
-common_bit_mask = ~(ones & twos)  
-ones & = common_bit_mask  
-twos & = common_bit_mask  
+common_bit_mask = ~(ones & twos)
+ones & = common_bit_mask
+twos & = common_bit_mask
 ```
 
 All it does is, common 1's between "ones" and "twos" are converted to zero.
@@ -189,6 +212,7 @@ Input: 43261596
 Output: 964176192
 
 ## My solution:
+
 ```py
 class Solution:
     def reverseBits(self, n):
@@ -209,6 +233,7 @@ class Solution:
 ```
 
 ## Optimized solution
+
 ```py
 class Solution:
     def reverseBits(self, n):
@@ -222,6 +247,7 @@ class Solution:
 ```
 
 Algorithm:
+
 1. Left shift `result`
 2. Apply `mask` to filter the first bit of `n`
 3. After masking, apply `or` operation with the masking result and `result`
@@ -237,22 +263,22 @@ Initialize:
     mask   = 0001
     result = 0000
 
-Iteration1: 
+Iteration1:
     result <<= 1,     result = 0000
     result |= n&mask, result = 0000|(0010&0001) = 0000
     n>>=1,            n      = 0001
 
-Iteration2: 
+Iteration2:
     result <<= 1,     result = 0000
     result |= n&mask, result = 0000|(0001&0001) = 0001
     n>>=1,            n      = 0000
 
-Iteration3: 
+Iteration3:
     result <<= 1,     result = 0010
     result |= n&mask, result = 0010|(0000&0001) = 0010
     n>>=1,            n      = 0000
 
-Iteration4: 
+Iteration4:
     result <<= 1,     result = 0100
     result |= n&mask, result = 0100|(0000&0001) = 0100
     n>>=1,            n      = 0000
@@ -261,8 +287,9 @@ Return: result= 0100
 ```
 
 # 201. Bitwise AND of Numbers Range
+
 Given a range `[m, n]` where `0 <= m <= n <= 2147483647`, return the bitwise AND of all numbers in this range, inclusive.
-For example, given the range `[5, 7]`, you should return 4.  
+For example, given the range `[5, 7]`, you should return 4.
 
 Hint: Just compare the leading digits of m,n if the leading digits match, return `2**i`
 
